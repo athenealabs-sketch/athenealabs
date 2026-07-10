@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="Ex6POtu2KDGXUcj9__vXTJEjCf8sWFYxUcKBf3_kqT8" />
+  <title>Athenea Labs — Creando apps con propósito</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --gold: #c9a84c;
+      --gold-dim: #8b6914;
+      --cream: #f5f0e8;
+      --muted: #6b6b6b;
+      --border: rgba(201,168,76,0.2);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 3rem;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem auto;
+      width: 200px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gold-dim);
+    }
+
+    .divider-diamond {
+      color: var(--gold);
+      font-size: 0.6rem;
+    }
+
+    .hero-quote {
+      max-width: 600px;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: rgba(245,240,232,0.7);
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+    }
+
+    .hero-quote cite {
+      display: block;
+      font-style: normal;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      margin-top: 1rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 1rem 2.5rem;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .cta-btn:hover { opacity: 0.85; }
+
+    /* SECTION BASE */
+    section {
+      padding: 6rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 400;
+      color: var(--cream);
+      text-align: center;
+      margin-bottom: 1rem;
+      letter-spacing: 0.06em;
+    }
+
+    .section-intro {
+      text-align: center;
+      color: rgba(245,240,232,0.65);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto 4rem;
+      font-style: italic;
+    }
+
+    /* APP SECTION */
+    .app-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .app-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .app-tagline {
+      font-style: italic;
+      color: rgba(245,240,232,0.5);
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    .app-desc {
+      color: rgba(245,240,232,0.8);
+      margin-bottom: 2rem;
+      line-height: 1.9;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .feature-item {
+      border-left: 2px solid var(--gold-dim);
+      padding-left: 1.2rem;
+    }
+
+    .feature-item h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .feature-item p {
+      font-size: 0.95rem;
+      color: rgba(245,240,232,0.6);
+      font-style: italic;
+    }
+
+    /* QUOTES SHOWCASE */
+    .quotes-section {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 5rem 2rem;
+    }
+
+    .quotes-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .quote-card {
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      color: var(--gold-dim);
+      line-height: 0;
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      opacity: 0.4;
+    }
+
+    .quote-text {
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--cream);
+      line-height: 1.8;
+      margin-top: 1rem;
+    }
+
+    .quote-author {
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-top: 1.2rem;
+      text-transform: uppercase;
+    }
+
+    .quote-category {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      text-transform: uppercase;
+    }
+
+    /* CATEGORIES */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .category-pill {
+      border: 1px solid var(--border);
+      padding: 0.8rem 1rem;
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: rgba(245,240,232,0.6);
+      text-transform: uppercase;
+      transition: border-color 0.3s, color 0.3s;
+    }
+
+    .category-pill:hover,
+    .category-pill.free {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ABOUT */
+    .about-text {
+      font-size: 1.1rem;
+      color: rgba(245,240,232,0.75);
+      line-height: 2;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-email {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--gold-dim);
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .app-card { padding: 2rem 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="#">ATHENEA LABS</a>
+    <ul class="nav-links">
+      <li><a href="#sophia">Sophia</a></li>
+      <li><a href="#categorias">Categorías</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Athenea Labs · Tenerife, España</p>
+    <h1 class="hero-title">ATHENEA<br>LABS</h1>
+    <p class="hero-subtitle">Creando apps con propósito</p>
+
+    <div class="divider"><span class="divider-diamond">✦</span></div>
+
+    <p class="hero-quote">
+      "La sabiduría no es un producto del aprendizaje,<br>sino de su búsqueda a lo largo de toda la vida."
+      <cite>— ALBERT EINSTEIN</cite>
+    </p>
+
+    <a class="cta-btn" href="#sophia">Conoce Sophia</a>
+  </div>
+
+  <!-- APP -->
+  <section id="sophia">
+    <p class="section-eyebrow">Nuestra aplicación</p>
+    <h2 class="section-title">SOPHIA</h2>
+    <p class="section-intro">Sabiduría atemporal en tu bolsillo</p>
+
+    <div class="app-card">
+      <div class="app-name">Σ Ο Φ Ι Α</div>
+      <p class="app-tagline">Frases Filosóficas · Desarrollada por Athenea Labs</p>
+      <p class="app-desc">
+        Sophia reúne más de 600 frases auténticas de los grandes pensadores de la historia: Sócrates, Marco Aurelio, Nietzsche, Simone de Beauvoir, Lao-Tsé y muchos más. Una experiencia minimalista diseñada para la reflexión diaria, con una estética inspirada en la Grecia clásica.
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h4>Cita del día</h4>
+          <p>Una nueva frase cada 24 horas para empezar el día con perspectiva</p>
+        </div>
+        <div class="feature-item">
+          <h4>21 categorías</h4>
+          <p>Estoicismo, Zen, Existencialismo, Budismo, Filosofía Griega y más</p>
+        </div>
+        <div class="feature-item">
+          <h4>Widget Android</h4>
+          <p>La cita del día directamente en tu pantalla de inicio</p>
+        </div>
+        <div class="feature-item">
+          <h4>Compartir</h4>
+          <p>Genera una imagen elegante de la frase para compartir en redes</p>
+        </div>
+        <div class="feature-item">
+          <h4>Favoritos</h4>
+          <p>Guarda las frases que más te inspiren y accede a ellas siempre</p>
+        </div>
+        <div class="feature-item">
+          <h4>Modo reflexión</h4>
+          <p>Una experiencia inmersiva para leer sin distracciones</p>
+        </div>
+        <div class="feature-item">
+          <h4>Autores destacados</h4>
+          <p>Explora la biografía de cada filósofo y sus mejores frases</p>
+        </div>
+        <div class="feature-item">
+          <h4>Premium vitalicio</h4>
+          <p>Acceso completo con un único pago de 4,99€. Sin suscripciones</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTES SHOWCASE -->
+  <div class="quotes-section">
+    <div class="quotes-inner">
+      <p class="section-eyebrow">Algunas frases de Sophia</p>
+      <h2 class="section-title">SABIDURÍA ATEMPORAL</h2>
+
+      <div class="quotes-grid">
+        <div class="quote-card">
+          <span class="quote-mark">"</span>
+          <p class="quote-text">Tienes poder sobre tu mente, no sobre los acontecimientos externos. Date cuenta de esto y encontrarás tu fortaleza.</p>
+          <p class="quote-author">— Marco Aurelio</p>
+          <p class="quote-category">Estoicismo</p>
+        </div>
+        <div class="quote-card">
+          <span class="quote-mark">"</span>
+          <p class="quote-text">El que sabe que suficiente es suficiente siempre tendrá suficiente.</p>
+          <p class="quote-author">— Lao-Tsé</p>
+          <p class="quote-category">Taoísmo</p>
+        </div>
+        <div class="quote-card">
+          <span class="quote-mark">"</span>
+          <p class="quote-text">Solo sé que no sé nada.</p>
+          <p class="quote-author">— Sócrates</p>
+          <p class="quote-category">Filosofía Griega</p>
+        </div>
+        <div class="quote-card">
+          <span class="quote-mark">"</span>
+          <p class="quote-text">La vida sin examen no merece la pena ser vivida.</p>
+          <p class="quote-author">— Platón</p>
+          <p class="quote-category">Filosofía Griega</p>
+        </div>
+        <div class="quote-card">
+          <span class="quote-mark">"</span>
+          <p class="quote-text">Antes de la iluminación: cortar leña y cargar agua. Después de la iluminación: cortar leña y cargar agua.</p>
+          <p class="quote-author">— Proverbio Zen</p>
+          <p class="quote-category">Zen</p>
+        </div>
+        <div class="quote-card">
+          <span class="quote-mark">"</span>
+          <p class="quote-text">No es pobre el que tiene poco, sino el que desea mucho.</p>
+          <p class="quote-author">— Séneca</p>
+          <p class="quote-category">Estoicismo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section id="categorias">
+    <p class="section-eyebrow">Explora el conocimiento</p>
+    <h2 class="section-title">21 CATEGORÍAS</h2>
+    <p class="section-intro">Desde las escuelas de pensamiento más antiguas hasta la filosofía contemporánea</p>
+
+    <div class="categories-grid">
+      <div class="category-pill free">Estoicismo</div>
+      <div class="category-pill free">Motivación</div>
+      <div class="category-pill free">Nihilismo</div>
+      <div class="category-pill free">Amor y Relaciones</div>
+      <div class="category-pill free">Zen</div>
+      <div class="category-pill free">Filosofía Griega</div>
+      <div class="category-pill free">Ilustración</div>
+      <div class="category-pill free">Soledad y Silencio</div>
+      <div class="category-pill">Existencialismo</div>
+      <div class="category-pill">Budismo</div>
+      <div class="category-pill">Taoísmo</div>
+      <div class="category-pill">Humanismo</div>
+      <div class="category-pill">Epicureísmo</div>
+      <div class="category-pill">Escepticismo</div>
+      <div class="category-pill">Confucianismo</div>
+      <div class="category-pill">Hinduismo</div>
+      <div class="category-pill">Muerte y Eternidad</div>
+      <div class="category-pill">Tiempo</div>
+      <div class="category-pill">Arte y Belleza</div>
+      <div class="category-pill">Política y Libertad</div>
+      <div class="category-pill">Ciencia y Conocimiento</div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="nosotros" style="border-top: 1px solid var(--border);">
+    <p class="section-eyebrow">Quiénes somos</p>
+    <h2 class="section-title">ATHENEA LABS</h2>
+    <div class="divider" style="margin: 1.5rem auto;"><span class="divider-diamond">✦</span></div>
+    <p class="about-text">
+      Athenea Labs es un estudio independiente de desarrollo de aplicaciones móviles con sede en Tenerife, España. Creemos que la tecnología debe servir al pensamiento, no sustituirlo. Cada app que creamos nace de una pregunta genuina: ¿qué necesita realmente la gente?<br><br>
+      Sophia es nuestra primera respuesta.
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">ATHENEA LABS</div>
+    <p class="footer-tagline">Creando apps con propósito · Tenerife, España</p>
+    <a class="footer-email" href="mailto:athenealabs@gmail.com">athenealabs@gmail.com</a>
+    <p class="footer-copy">© 2026 Athenea Labs. Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>
